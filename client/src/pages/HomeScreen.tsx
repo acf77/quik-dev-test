@@ -14,10 +14,15 @@ export const HomeScreen = () => {
 
         {postData.map((p) => (
           <PostCard
+            id={p.id}
+            key={p.id}
             avatar={p.avatar}
             author={p.name}
             username={`@${p.username}`}
-            content={p.content}
+            post={p.post}
+            date={p.date}
+            //@ts-ignore
+            comments={p.comments}
           />
         ))}
       </Stack>
