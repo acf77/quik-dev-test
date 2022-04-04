@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Typography, IconButton } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 
 import MenuIcon from "@mui/icons-material/Menu";
+import { Link } from "react-router-dom";
 
 interface OpenDrawerProps {
   openDrawer: boolean;
@@ -19,7 +20,7 @@ export const Header = () => {
   return (
     <header>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar className="header">
           <IconButton
             edge="start"
             color="inherit"
@@ -29,7 +30,9 @@ export const Header = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5">quikDev</Typography>
+          <Link to={"/"}>
+            <img src="https://quikdev.com.br/wp-content/uploads/2021/08/Ativo-73.png" />
+          </Link>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={openDrawer}></Drawer>

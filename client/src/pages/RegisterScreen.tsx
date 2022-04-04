@@ -8,9 +8,7 @@ import {
   CardContent,
   Box,
   Typography,
-  FormControl,
 } from "@mui/material";
-import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
 
@@ -22,59 +20,59 @@ interface PasswordProps {
   password: string;
 }
 
-export const LoginScreen = () => {
+export const RegisterScreen = () => {
   const [email, setEmail] = useState<EmailProps>();
   const [password, setPassword] = useState<PasswordProps>();
+  const [name, setName] = useState();
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    localStorage.getItem("userInfo") ? navigate("/home") : navigate("/");
-  }, []);
-
-  const handleLogin = async () => {
-    const { data } = await axios.post("http://localhost:8080/api/login", {
-      email,
-      password,
-    });
-
-    data && localStorage.setItem("userInfo", data);
-    data && navigate("/home");
+  const handleLogin = () => {
+    // console.log(email, password);
+    // localStorage.setItem("isAuthenticaded", JSON.stringify(true));
   };
 
   return (
     <Box sx={{ display: "flex" }}>
-      <Grid className="left-grid">
-        <Typography variant="h4" className="login-title">
-          A rede social dos dev's quik
-        </Typography>
-      </Grid>
-      <Grid className="right-grid">
+      <Grid className="register-left-grid">
         <Card variant="outlined">
           <CardContent>
             <Stack gap={2}>
               <Typography variant="h5" textAlign={"center"}>
-                Entrar
+                Cadastre-se
               </Typography>
-
+              <TextField
+                id="standard-basic"
+                type="text"
+                label="Nome"
+                variant="standard"
+                onChange={(e) => setName(e.target.value)}
+              />
               <TextField
                 type="email"
+                id="standard-basic"
                 label="Email"
                 variant="standard"
                 onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
+                id="standard-basic"
                 type="password"
-                label="Password"
+                label="Senha"
                 variant="standard"
                 onChange={(e) => setPassword(e.target.value)}
               />
               <Button variant="contained" onClick={handleLogin}>
-                Login
+                Cadastrar
               </Button>
             </Stack>
           </CardContent>
         </Card>
+      </Grid>
+      <Grid className="register-right-grid">
+        <Typography variant="h4" className="login-title">
+          A rede social dos dev's quik
+        </Typography>
       </Grid>
     </Box>
   );
