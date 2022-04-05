@@ -1,11 +1,14 @@
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
+import { postSchema } from "./postModel";
 
 interface User {
   name: string;
   username: string;
   email: string;
   password: string;
+  avatar: string;
+  allPosts: any;
   isAdmin: boolean;
 }
 
@@ -27,6 +30,11 @@ const userSchema = new mongoose.Schema<User>(
       type: String,
       required: true,
     },
+    avatar: {
+      type: String,
+      required: false,
+    },
+    allPosts: [postSchema],
     isAdmin: {
       type: Boolean,
       required: true,

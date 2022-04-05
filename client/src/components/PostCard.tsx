@@ -8,10 +8,16 @@ import {
   Stack,
   Typography,
   Badge,
+  FormControl,
+  Input,
+  IconButton,
 } from "@mui/material";
+
+import axios from "axios";
 
 import Collapse from "@mui/material/Collapse";
 import CommentIcon from "@mui/icons-material/Comment";
+import AddCommentIcon from "@mui/icons-material/AddComment";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { ListItemButton } from "@mui/material";
@@ -35,6 +41,21 @@ interface PostCardProps {
 
 export const PostCard = (props: PostCardProps) => {
   const [open, setOpen] = useState(false);
+  const [comment, setComment] = useState();
+  const [id, setId] = useState(props.id);
+
+  const handleAddComment = async () => {
+    const { data } = await axios({
+      method: "PUT",
+      url: "http://localhost:8080/api/posts/comment",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        comment,
+        id,
+      },
+    });
+    console.log(data);
+  };
 
   const handleClick = () => {
     setOpen(!open);
@@ -75,6 +96,15 @@ export const PostCard = (props: PostCardProps) => {
             </Typography>
           ))}
         </Collapse>
+        <Stack direction="row">
+          <Input
+            placeholder="Add comment"
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <IconButton onClick={handleAddComment}>
+            <AddCommentIcon />
+          </IconButton>
+        </Stack>
       </CardContent>
     </Card>
   );

@@ -1,9 +1,7 @@
-import { useState } from "react";
-
 import { AppBar, Toolbar, Typography, IconButton } from "@mui/material";
-import Drawer from "@mui/material/Drawer";
 
-import MenuIcon from "@mui/icons-material/Menu";
+import LogoutIcon from "@mui/icons-material/Logout";
+
 import { Link } from "react-router-dom";
 
 interface OpenDrawerProps {
@@ -11,17 +9,16 @@ interface OpenDrawerProps {
 }
 
 export const Header = () => {
-  const [openDrawer, setOpenDrawer] = useState<OpenDrawerProps>(false);
-
-  const handleOpenDrawer = () => {
-    setOpenDrawer(true);
+  const handleLogout = () => {
+    localStorage.removeItem("userInfo");
+    window.location.reload();
   };
 
   return (
     <header>
       <AppBar position="static">
         <Toolbar className="header">
-          <IconButton
+          {/* <IconButton
             edge="start"
             color="inherit"
             aria-label="menu"
@@ -29,13 +26,20 @@ export const Header = () => {
             onClick={handleOpenDrawer}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Link to={"/"}>
             <img src="https://quikdev.com.br/wp-content/uploads/2021/08/Ativo-73.png" />
           </Link>
+          <IconButton
+            color="inherit"
+            sx={{ position: "flex-end" }}
+            onClick={handleLogout}
+          >
+            <LogoutIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={openDrawer}></Drawer>
+      {/* <Drawer variant="permanent" open={openDrawer}></Drawer> */}
     </header>
   );
 };

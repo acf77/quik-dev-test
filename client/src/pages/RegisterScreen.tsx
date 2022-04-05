@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   TextField,
   Grid,
@@ -8,9 +8,12 @@ import {
   CardContent,
   Box,
   Typography,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
+import axios from "axios";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface EmailProps {
   email: string;
@@ -24,12 +27,24 @@ export const RegisterScreen = () => {
   const [email, setEmail] = useState<EmailProps>();
   const [password, setPassword] = useState<PasswordProps>();
   const [name, setName] = useState();
+  const [username, setUsername] = useState();
+  const [errorAlert, setErrorAlert] = useState();
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
-  const navigate = useNavigate();
+  const handleRegister = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:8080/api/register", {
+        name,
+        username,
+        email,
+        password,
+      });
 
-  const handleLogin = () => {
-    // console.log(email, password);
-    // localStorage.setItem("isAuthenticaded", JSON.stringify(true));
+      data && setSuccessAlert(true);
+    } catch (error) {
+      setErrorAlert(`Usuário ou email já cadastrados. ${error.message}`);
+    }
   };
 
   return (
@@ -38,33 +53,43 @@ export const RegisterScreen = () => {
         <Card variant="outlined">
           <CardContent>
             <Stack gap={2}>
+              {successAlert && (
+                <Alert severity="success">
+                  Conta criada com sucesso! <Link to="/">Entrar</Link>{" "}
+                </Alert>
+              )}
+              {errorAlert && <Alert severity="error">{errorAlert}</Alert>}
               <Typography variant="h5" textAlign={"center"}>
                 Cadastre-se
               </Typography>
               <TextField
-                id="standard-basic"
                 type="text"
                 label="Nome"
                 variant="standard"
                 onChange={(e) => setName(e.target.value)}
               />
               <TextField
+                type="text"
+                label="Nome de usuário"
+                variant="standard"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <TextField
                 type="email"
-                id="standard-basic"
                 label="Email"
                 variant="standard"
                 onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
-                id="standard-basic"
                 type="password"
                 label="Senha"
                 variant="standard"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button variant="contained" onClick={handleLogin}>
+              <Button variant="contained" onClick={handleRegister}>
                 Cadastrar
               </Button>
+              <Link to="/">Já possui conta? Entrar</Link>
             </Stack>
           </CardContent>
         </Card>

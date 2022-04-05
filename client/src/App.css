@@ -32,7 +32,7 @@ body {
 
 .register-left-grid {
   padding: 0 50px;
-  top: 40%;
+  top: 30%;
   width: 50%;
   position: absolute;
   left: 0px;
@@ -44,4 +44,12 @@ body {
   /* background: no-repeat; */
   background-color: #30255f;
   /* background-image: url("https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"); */
+}
+
+.loading-box {
+  padding: 0 50px;
+  top: 40%;
+  width: 50%;
+  position: absolute;
+  right: 0px;
 }
