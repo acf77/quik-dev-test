@@ -98,6 +98,34 @@ app.put("/api/posts", (req, res) => {
   addPostToDb();
 });
 
+//@PUT private add new comment
+app.put("/api/post/comment", (req, res) => {
+  const { body } = req;
+
+  const addPostToDb = async () => {
+    try {
+      const content = await Post.updateOne(body.id, {
+        $addToSet: {
+          comments: [
+            {
+              name: body.name,
+              username: body.username,
+              content: body.post,
+              date: body.date,
+            },
+          ],
+        },
+      });
+
+      res.status(201).json(content);
+    } catch (error) {
+      res.status(401).json(error);
+    }
+  };
+
+  addPostToDb();
+});
+
 //@GET private retrieves user info
 app.get("/api/login", (req, res) => {
   const { id } = req.body;
